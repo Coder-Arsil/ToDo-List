@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Todo List</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: calibri;
+        }
+        
+        h1 {
+            margin: 50px 0;
+        }
+        
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+        
+        form {
+            width: 40%;
+        }
+        
+        form * {
+            width: 100%;
+            height: 20px;
+            margin-top: 2px;
+        }
+        
+        input {
+            padding: 25px 0;
+        }
+        
+        input[type='submit'] {
+            background-color: green;
+            color: white;
+            font-size: 18px;
+            padding-bottom: 30px;
+            border: none;
+        }
+        
+        table {
+            width: 40%;
+        }
+        
+        form input {
+            padding: 25px 0;
+        }
+        
+        td,
+        th {
+            border: none;
+            padding: 25px 0;
+        }
+        
+        th {
+            background-color: black;
+            padding: 5px 0;
+            color: white;
+            font-size: 25px;
+        }
+        
+        tbody tr td {
+            border: 1px solid black;
+            padding: 0;
+            text-align: center;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Todo List App</h1>
+    <form>
+        <input type="text" required />
+        <br /><br />
+        <input type="submit" />
+    </form>
+    <table>
+        <thead>
+            <tr>
+                <th>
+                    Todo's
+                </th>
+                <th>Remove</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+        <!-- <tfooter>
+            <tr>
+                <td colspan="2">Clear All</td>
+            </tr>
+        </tfooter> -->
+        <script>
+            let form = document.querySelector("form");
+            let ls = localStorage.getItem('todo');
+            let todo = ls ? JSON.parse(ls) : [];
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                let inpData = form[0].value;
+                todo.push(inpData);
+                localStorage.setItem('todo',
+                    JSON.stringify(todo));
+                location.reload();
+            })
+            todo.map((data, index) => {
+                document.querySelector("tbody").innerHTML += `
+            <tr>
+                <td>${data}</td>
+                <td onclick="del(${index})" style="background:red;color:white"><i class="fa fa-trash"></i> Delete</td>
+            </tr>
+            `;
+            })
+
+            function del(e) {
+                let deleted = todo.filter((data, index) => {
+                    return index !== e;
+                })
+                localStorage.setItem('todo', JSON.stringify(deleted));
+                location.reload()
+            }
+        </script>
+</body>
+
+</html>
+
+</html>
